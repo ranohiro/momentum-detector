@@ -20,4 +20,8 @@ history/
 
 # Credentials and secrets
 credentials.json
-*.token.json
+*.token.jsondata/
+__pycache__/
+*.pyc
+history/
+credentials.json
