@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import json
+import sys
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -15,9 +17,17 @@ MOMENTUM_SHEET_NAME = "momentum_log"
 # ==============================
 # Google認証
 # ==============================
-creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-gc = gspread.authorize(creds)
-sh = gc.open_by_key(SPREADSHEET_ID)
+gcp_creds_env = os.environ.get("GCP_CREDENTIALS")
+if gcp_creds_env:
+    info = json.loads(gcp_creds_env)
+    creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    gc = gspread.authorize(creds)
+    sh = gc.open_by_key(SPREADSHEET_ID)
+else:
+    # 従来のファイル読み込み（ファイルがなければここで FileNotFoundError が出る）
+    creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    gc = gspread.authorize(creds)
+    sh = gc.open_by_key(SPREADSHEET_ID)
 
 # ==============================
 # 共通アップロード関数（重複防止）
