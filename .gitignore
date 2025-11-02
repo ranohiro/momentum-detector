@@ -16,7 +16,9 @@ env/
 
 # Local data (not for deployment)
 data/
+debug&test
 history/
+logs/
 
 # Credentials and secrets
 credentials.json

@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# csv_downloader.py
-# 使用:
-#  1) 環境変数に KABU_ID と KABU_PW をセットする
-#     export KABU_ID="your-id"
-#     export KABU_PW="your-pw"
-#  2) python csv_downloader.py
-
 import os
 import datetime
 import requests
@@ -14,7 +6,7 @@ from urllib3.util.retry import Retry
 
 # --- 設定 ---
 CSV_URL = "https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices.csv"
-SAVE_DIR = os.path.join("data", "raw")
+SAVE_DIR = os.path.join("data", "raw", "japan_all_stock")
 TIMEOUT = 20  # 秒
 # ----------------
 

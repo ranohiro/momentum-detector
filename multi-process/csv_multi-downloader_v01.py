@@ -4,6 +4,14 @@
 #   export KABU_ID="your-id"
 #   export KABU_PW="your-pw"
 #   python csv_downloader_multi.py 5   ← 過去5日分を取得
+#
+#   ↓全銘柄株価一覧表
+#   "https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices"
+#   SAVE_DIR = os.path.join("data", "raw", "japan_all_stock")
+#
+#　　↓業種・指数指数データ
+#   "https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data"
+#   SAVE_DIR = os.path.join("data", "raw", "tosho_index")
 
 import os
 import sys
@@ -13,8 +21,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 # --- 設定 ---
-BASE_URL = "https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices"
-SAVE_DIR = os.path.join("data", "raw")
+BASE_URL = "https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data"
+SAVE_DIR = os.path.join("data", "raw", "tosho_index")
 TIMEOUT = 20  # 秒
 # ----------------
 
@@ -39,7 +47,7 @@ def download_csv_for_date(target_date, session, id_, pw):
     os.makedirs(SAVE_DIR, exist_ok=True)
     date_str = target_date.strftime("%Y%m%d")
     url = f"{BASE_URL}_{date_str}.csv"
-    filename = f"japan-all-stock-prices_{date_str}.csv"
+    filename = f"tosho-index-data_{date_str}.csv"
     save_path_tmp = os.path.join(SAVE_DIR, filename + ".part")
     save_path = os.path.join(SAVE_DIR, filename)
 
@@ -89,6 +97,6 @@ if __name__ == "__main__":
     else:
         n = 150
 
-    print(f"📆 過去 {n} 日分のCSVを取得します...")
+    print(f"📆 過去 {n} 営業日分のCSVを取得します...")
     download_past_n_days(n)
     print("🎯 全ての処理が完了しました。")
