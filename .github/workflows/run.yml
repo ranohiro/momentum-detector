@@ -24,5 +24,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run main.py
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          KABU_ID: ${{ secrets.KABU_ID }}
+          KABU_PW: ${{ secrets.KABU_PW }}
         run: |
           python main.py
