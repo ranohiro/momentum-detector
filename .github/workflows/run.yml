@@ -32,15 +32,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-<<<<<<< HEAD
-      - name: Run main.py
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          KABU_ID: ${{ secrets.KABU_ID }}
-          KABU_PW: ${{ secrets.KABU_PW }}
-        run: |
-          python main.py
-=======
       - name: Write GCP credentials
         env:
           GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
@@ -52,17 +43,22 @@ jobs:
             echo "GCP_CREDENTIALS not set; proceeding without credentials.json"
           fi
 
-      - name: Set DISCORD_WEBHOOK env for steps
+      - name: Export KABU and DISCORD env
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          KABU_ID: ${{ secrets.KABU_ID }}
+          KABU_PW: ${{ secrets.KABU_PW }}
+          # GCP_CREDENTIALS already written to credentials.json above if provided
         run: |
-          echo "DISCORD_WEBHOOK available to this job"
+          echo "Environment variables prepared"
 
       - name: Run main.py (single run)
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          KABU_ID: ${{ secrets.KABU_ID }}
+          KABU_PW: ${{ secrets.KABU_PW }}
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         run: |
-          # run in single-run mode (main.py will detect GITHUB_ACTIONS or --once)
           python -u main.py --once
 
       - name: Upload logs as artifact (optional)
@@ -71,4 +67,3 @@ jobs:
         with:
           name: momentum-logs
           path: logs/*.txt
->>>>>>> ed14e37 (ローカルの変更を保存)
