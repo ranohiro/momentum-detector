@@ -4,6 +4,7 @@ pandas
 numpy
 schedule
 gspread
+jpholiday
 google-auth
 google-auth-oauthlib
 google-auth-httplib2
