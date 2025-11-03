@@ -7,8 +7,6 @@ import logging
 import argparse
 import time
 import requests
-
-# === 追加 ===
 try:
     import jpholiday
 except ImportError:
