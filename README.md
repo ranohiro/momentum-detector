@@ -9,7 +9,7 @@
 
 | フェーズ | 概要 |
 |-----------|------|
-| **1. データ収集・加工** | 株価ランキングサイト（kabu.plus）から業種別データを取得・加工し、`processed_data`配下に保存。 |
+| **1. データ収集・加工** | 株式情報サイト（kabu.plus）から業種別データを取得・加工し、`processed_data`配下に保存。 |
 | **2. スプレッドシート更新** | 加工済みCSVをGoogleスプレッドシート（`sector_log` / `momentum_log`）にアップロード。 |
 | **3. 可視化生成** | シート内容をもとに、業種別の騰落率・売買代金比率を整形し可視化用データを生成。 |
 | **4. サマリー通知** | 最新データをもとに業種別ランキングをDiscordへ自動送信。 |
@@ -20,76 +20,65 @@
 ## 📂 ディレクトリ構成
 
 ```
-.
-├── main.py                        # 全体の実行制御
-├── 4-google_sheets_uploader_v02.py # GoogleスプレッドシートへCSVアップロード
-├── 5-momentum_analyzer_v02.py      # 業種別モメンタム分析とランキング生成
-├── 6-summary_sender_v01.py         # Discordへ日次サマリー通知
-├── requirements.txt                # 依存ライブラリ
-├── run.yml                         # GitHub Actions設定（自動実行）
-├── data/
-│   └── processed_data/
-│       ├── sector_summary/         # セクター別集計CSV格納
-│       └── momentum_summary/       # モメンタム分析用CSV格納
+momentum-detector/
+├── main.py                        　　　　# 全体の実行制御
+├── 1-csv_downloader_individuals_v01.py   # KABU＋からデータ取得
+├── 2-csv_summary_creator_v01.py          # KABU＋からデータ取得
+├── 3-data_processor_v02.py               # データの前処理・集計
+├── 4-google_sheets_uploader_v02.py       # GoogleスプレッドシートへCSVアップロード
+├── 5-momentum_analyzer_v02.py      　　　 # 業種別モメンタム分析とランキング生成
+├── 6-summary_sender_v01.py               # Discordへ日次サマリー通知
+├── requirements.txt                      # 依存ライブラリ
+├── run.yml                               # GitHub Actions設定（自動実行）
+data/
+│    ├─ raw/
+│    │   ├─ japan_all_stock/
+│    │   └─ tosho_index/
+│    └─ processed_data/
+│        ├─ sector_summary/               # セクター別集計CSV格納
+│        └─ momentum_summary/             # モメンタム分析用CSV格納
 └── credentials.json                # GCP認証情報（Secrets経由で生成）
 ```
-
----
 
 ---
 
 ## ⚙️ 各スクリプトの役割
 
 ### 1. csv_downloader_individuals_v01.py
-- 各銘柄の株価データをスクレイピングまたはAPI経由で取得  
-- 取得先：株探などのランキングデータ（例：値上がり率上位など）  
+- 各銘柄の株価データを、「KABU +(https://kabu.plus)」より取得   
 - 出力先：`data/raw/` 以下に日付付きで保存  
 - 使用ライブラリ：`requests`, `pandas`, `urllib3`
 
 ---
 
-### 2. csv_summary_creator_v01.py
+### 2. csv_downloader_index_v01.py
 - ダウンロード済みの個別株データを集計  
 - 各業種や市場別に平均上昇率・出来高変化率を算出  
 - 出力：`YYMMDD_sector_summary.csv`, `YYMMDD_momentum_summary.csv`
 
 ---
 
-### 3. sector_screener_v02.py
-- 業種別にトレンドを解析し、強いセクターを抽出  
-- jpholidayを用いて営業日のみ実行  
-- 分析対象：業種ごとの平均上昇率・値動き一貫性  
-- 出力：セクター別スコアリスト
+### 3. data_processor_v01.py
+- 業種名統一化
+- 業種別・時価総額帯別に集計、モメンタム指標を計算
 
 ---
 
-### 4. momentum_detector_v01.py
-- 銘柄単位で短期モメンタムを検出  
-- RSI、ストキャスティクス、出来高変化率などを指標に使用  
-- トレンド転換点を特定し、買いシグナル候補を出力  
+### 4. google_sheets_uploader_v02.py
+- 集計結果CSVをGoogle Sheetsへ自動アップロード
+- 出力：`momentum_log` や `sector_log` へデータ蓄積
 
 ---
 
 ### 5. momentum_analyzer_v03.py
-- モメンタム検知結果を統計的に分析  
-- 銘柄やセクター単位でのトレンド強度・持続性を数値化  
-- 出力：`momentum_log` や `sector_log` への分析結果  
+- 銘柄やセクター単位での売買代金比からモメンタムの経時変化ログをとる
+- 騰落率の経時変化ログをとる
+- 出力：`momentum_flow` や `sector_ranking` へ結果転記
 
 ---
 
-### 6. google_sheets_uploader.py
-- `gspread` を用いてGoogleスプレッドシートに自動書き込み  
-- シート：
-  - `sector_log`：セクター分析の結果
-  - `momentum_log`：モメンタム分析の結果  
-- OAuth認証を利用し、サービスアカウント経由で安全にアップロード  
-
----
-
-### 7. summary_sender_251020.py
-- 1〜6の結果をまとめて通知  
-- 想定機能：Slack通知またはメール送信（今後拡張予定）  
-- スケジュール実行対応（例：`schedule`ライブラリで日次実行）
+### 6. summary_sender_v01.py
+- Discordに「本日の相場 ショートサマリー」を送信
 
 ---
 
@@ -109,8 +98,6 @@ google-auth-httplib2
 
 ---
 
----
-
 ## 🔐 Google連携設定
 
 1. Google Cloud Consoleでサービスアカウントを作成  
@@ -122,7 +109,7 @@ google-auth-httplib2
 
 ## ⚡ 自動実行 (GitHub Actions)
 
-`.github/workflows/main.yml` を用いて、毎営業日の決まった時間に実行します。  
+`.github/workflows/main.yml` を用いて、毎営業日の決まった時間に実行。  
 
 ```yaml
 on:
