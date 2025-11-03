@@ -4,7 +4,6 @@ pandas
 numpy
 schedule
 gspread
-sys
 json
 google-auth
 google-auth-oauthlib
