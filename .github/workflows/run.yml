@@ -106,7 +106,7 @@ jobs:
           git push origin main || echo "No push needed"
 
       # =========================
-      # ⑩ ログをアーティファクトとして保存（任意）
+      # ⑩ ログをアーティファクトとして保存
       # =========================
       - name: Upload logs as artifact
         if: always()
@@ -114,3 +114,26 @@ jobs:
         with:
           name: momentum-logs
           path: logs/*.txt
+
+      # =========================
+      # 11 csvとlogを自動でコミット&プッシュ
+      # =========================
+      - name: Commit and push data and logs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 最新状態を取得（衝突防止）
+          git pull --rebase origin main
+
+          # 古いファイル削除（例：10日以上前のlogs・data）
+          find data/raw -type f -mtime +20 -delete || true
+          find data/processed_data -type f -mtime +20 -delete || true
+          find logs -type f -mtime +10 -delete || true
+
+          # 変更をステージングしてコミット
+          git add data logs || true
+          git commit -m "Auto-update data and logs on $(date '+%Y-%m-%d')" || echo "No changes to commit"
+
+          # コミットがあればプッシュ
+          git push origin main || echo "No changes to push"
