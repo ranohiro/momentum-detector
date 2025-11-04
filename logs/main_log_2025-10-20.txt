@@ -1,0 +1,34 @@
+
+[2025/10/20 17:30:19] === 1-csv_downloader_individuals_v01.py 実行開始 ===
+📥 Downloading CSV from https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices.csv ...
+✅ Downloaded successfully → data/raw/japan_all_stock/japan-all-stock-prices_20251020.csv
+
+[2025/10/20 17:30:19] === 1-csv_downloader_individuals_v01.py 実行完了 ===
+
+[2025/10/20 17:30:20] === 2-csv_downloader_index_v01.py 実行開始 ===
+📥 Downloading CSV from https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data.csv ...
+✅ Downloaded successfully → data/raw/tosho_index/tosho-index-data_20251020.csv
+
+[2025/10/20 17:30:20] === 2-csv_downloader_index_v01.py 実行完了 ===
+
+[2025/10/20 17:30:20] === 3-data_processor_v01.py 実行開始 ===
+📅 対象日: 2025/10/20
+✅ sector_summary 保存: data/processed_data/sector_summary/20251020_sector_summary.csv
+✅ momentum_summary 保存: data/processed_data/momentum_summary/20251020_momentum_summary.csv
+
+[2025/10/20 17:30:20] === 3-data_processor_v01.py 実行完了 ===
+
+[2025/10/20 17:30:21] === 4-google_sheets_uploader_v02.py 実行開始 ===
+Uploading data/processed_data/sector_summary/20251020_sector_summary.csv → sector_log ...
+✅ sector_log: 159 行を追加、合計 16409 行に更新しました。
+Uploading data/processed_data/momentum_summary/20251020_momentum_summary.csv → momentum_log ...
+✅ momentum_log: 33 行を追加、合計 3399 行に更新しました。
+全シート更新完了！
+
+[2025/10/20 17:30:21] === 4-google_sheets_uploader_v02.py 実行完了 ===
+
+[2025/10/20 17:30:33] === 5-momentum_analyzer_v03.py6-summary_sender_v01.py 実行開始 ===
+
+[ERROR] 5-momentum_analyzer_v03.py6-summary_sender_v01.py 実行中にエラー:
+/Users/hiranotakahiro/Projects/モメンタム検知/venv/bin/python: can't open file '/Users/hiranotakahiro/Projects/モメンタム検知/5-momentum_analyzer_v03.py6-summary_sender_v01.py': [Errno 2] No such file or directory
+
