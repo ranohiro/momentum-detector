@@ -1,0 +1,28 @@
+[2025/11/04 14:45:45] INFO: START 1-csv_downloader_individuals_v01.py
+[2025/11/04 14:45:46] INFO: [1-csv_downloader_individuals_v01.py] 📥 Downloading CSV from https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices.csv ...
+[2025/11/04 14:45:46] INFO: [1-csv_downloader_individuals_v01.py] ✅ Downloaded successfully → data/raw/japan_all_stock/japan-all-stock-prices_20251104.csv
+[2025/11/04 14:45:46] INFO: END 1-csv_downloader_individuals_v01.py (elapsed 1.4s)
+[2025/11/04 14:45:46] INFO: START 2-csv_downloader_index_v01.py
+[2025/11/04 14:45:47] INFO: [2-csv_downloader_index_v01.py] 📥 Downloading CSV from https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data.csv ...
+[2025/11/04 14:45:47] INFO: [2-csv_downloader_index_v01.py] ✅ Downloaded successfully → data/raw/tosho_index/tosho-index-data_20251104.csv
+[2025/11/04 14:45:47] INFO: END 2-csv_downloader_index_v01.py (elapsed 0.8s)
+[2025/11/04 14:45:47] INFO: START 3-data_processor_v01.py
+[2025/11/04 14:45:48] INFO: [3-data_processor_v01.py] 📅 対象日: 2025/11/04
+[2025/11/04 14:45:48] INFO: [3-data_processor_v01.py] ✅ sector_summary 保存: data/processed_data/sector_summary/20251104_sector_summary.csv
+[2025/11/04 14:45:48] INFO: [3-data_processor_v01.py] ✅ momentum_summary 保存: data/processed_data/momentum_summary/20251104_momentum_summary.csv
+[2025/11/04 14:45:48] INFO: END 3-data_processor_v01.py (elapsed 1.3s)
+[2025/11/04 14:45:48] INFO: START 4-google_sheets_uploader_v02.py
+[2025/11/04 14:45:56] INFO: [4-google_sheets_uploader_v02.py] Uploading data/processed_data/sector_summary/20251104_sector_summary.csv → sector_log ...
+[2025/11/04 14:45:56] INFO: [4-google_sheets_uploader_v02.py] ✅ sector_log: 0 行を追加、合計 18158 行に更新しました。
+[2025/11/04 14:45:56] INFO: [4-google_sheets_uploader_v02.py] Uploading data/processed_data/momentum_summary/20251104_momentum_summary.csv → momentum_log ...
+[2025/11/04 14:45:56] INFO: [4-google_sheets_uploader_v02.py] ✅ momentum_log: 0 行を追加、合計 3729 行に更新しました。
+[2025/11/04 14:45:56] INFO: [4-google_sheets_uploader_v02.py] 全シート更新完了！
+[2025/11/04 14:45:56] INFO: END 4-google_sheets_uploader_v02.py (elapsed 7.9s)
+[2025/11/04 14:45:56] INFO: START 5-momentum_analyzer_v02.py
+[2025/11/04 14:46:00] INFO: [5-momentum_analyzer_v02.py] ✅ sector_ranking 更新完了
+[2025/11/04 14:46:00] INFO: [5-momentum_analyzer_v02.py] ✅ momentum_flow 更新完了
+[2025/11/04 14:46:00] INFO: [5-momentum_analyzer_v02.py] 全シート更新完了！
+[2025/11/04 14:46:00] INFO: END 5-momentum_analyzer_v02.py (elapsed 4.3s)
+[2025/11/04 14:46:00] INFO: START 6-summary_sender_v01.py
+[2025/11/04 14:46:03] INFO: [6-summary_sender_v01.py] ✅ Discord送信完了
+[2025/11/04 14:46:03] INFO: END 6-summary_sender_v01.py (elapsed 2.8s)
