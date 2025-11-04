@@ -11,6 +11,9 @@ try:
     import jpholiday
 except ImportError:
     jpholiday = None
+from cleanup_old_data import run_cleanup
+
+run_cleanup()
 
 # ==============================
 # 設定（必要なら変更）

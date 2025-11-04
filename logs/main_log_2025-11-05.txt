@@ -1,0 +1,40 @@
+
+[2025/11/05 00:03:23] === 1-csv_downloader_individuals_v01.py 実行開始 ===
+📥 Downloading CSV from https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices.csv ...
+✅ Downloaded successfully → data/raw/japan_all_stock/japan-all-stock-prices_20251105.csv
+
+[2025/11/05 00:03:23] === 1-csv_downloader_individuals_v01.py 実行完了 ===
+
+[2025/11/05 00:03:23] === 2-csv_downloader_index_v01.py 実行開始 ===
+📥 Downloading CSV from https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data.csv ...
+✅ Downloaded successfully → data/raw/tosho_index/tosho-index-data_20251105.csv
+
+[2025/11/05 00:03:23] === 2-csv_downloader_index_v01.py 実行完了 ===
+
+[2025/11/05 00:03:24] === 3-data_processor_v01.py 実行開始 ===
+📅 対象日: 2025/11/05
+✅ sector_summary 保存: data/processed_data/sector_summary/20251105_sector_summary.csv
+✅ momentum_summary 保存: data/processed_data/momentum_summary/20251105_momentum_summary.csv
+
+[2025/11/05 00:03:24] === 3-data_processor_v01.py 実行完了 ===
+
+[2025/11/05 00:03:25] === 4-google_sheets_uploader_v02.py 実行開始 ===
+Uploading data/processed_data/sector_summary/20251105_sector_summary.csv → sector_log ...
+✅ sector_log: 159 行を追加、合計 17999 行に更新しました。
+Uploading data/processed_data/momentum_summary/20251105_momentum_summary.csv → momentum_log ...
+✅ momentum_log: 33 行を追加、合計 3729 行に更新しました。
+全シート更新完了！
+
+[2025/11/05 00:03:25] === 4-google_sheets_uploader_v02.py 実行完了 ===
+
+[2025/11/05 00:03:35] === 5-momentum_analyzer_v02.py 実行開始 ===
+✅ sector_ranking 更新完了
+✅ momentum_flow 更新完了
+全シート更新完了！
+
+[2025/11/05 00:03:35] === 5-momentum_analyzer_v02.py 実行完了 ===
+
+[2025/11/05 00:03:41] === 6-summary_sender_v01.py 実行開始 ===
+✅ Discord送信完了
+
+[2025/11/05 00:03:41] === 6-summary_sender_v01.py 実行完了 ===
