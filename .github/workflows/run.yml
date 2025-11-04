@@ -5,6 +5,9 @@ on:
     - cron: '0 8 * * *'   # UTC 8:00 = JST 17:00
   workflow_dispatch:       # 手動実行用
 
+permissions:
+  contents: write
+
 jobs:
   run-main:
     runs-on: ubuntu-latest
