@@ -18,6 +18,11 @@ SECTOR_RANKING_SHEET = "sector_ranking"
 MOMENTUM_FLOW_SHEET = "momentum_flow"
 
 # ==============================
+# [追加] スライディングウィンドウ設定
+# ==============================
+KEEP_DAYS = 120 # [修正箇所] 常に保持したい日付の列数
+
+# ==============================
 # 固定業種順
 # ==============================
 SECTOR_ORDER = [
@@ -48,10 +53,37 @@ def get_sheet_dataframe(sheet_name):
     return df
 
 def update_sheet(df, sheet_name):
-    """GoogleシートにDataFrameをアップロード"""
+    """
+    GoogleシートにDataFrameをアップロード。
+    [修正箇所] アップロード前に日付列を最新120日分にカットします。
+    """
     worksheet = sh.worksheet(sheet_name)
     df = df.replace([np.inf, -np.inf], np.nan).fillna("")
-    values = df.values.tolist()
+    
+    # 現状のデータフレームの列数
+    current_cols = df.shape[1]
+    
+    if current_cols > 1:
+        # 1列目 (インデックス/タイトル) は常に保持
+        index_col = df.columns[0]
+        
+        # 2列目以降の日付列部分
+        date_cols_data = df.iloc[:, 1:]
+        
+        if date_cols_data.shape[1] > KEEP_DAYS:
+            # 保持する日付列部分をスライス (後ろから120列)
+            df_recent_data = date_cols_data.iloc[:, -KEEP_DAYS:]
+            
+            # [インデックス列] と [最新120日のデータ列] を結合
+            df_final = pd.concat([df.iloc[:, [0]], df_recent_data], axis=1)
+            print(f"[{sheet_name}] 古い日付データを削除し、最新{KEEP_DAYS}日分にカットしました。")
+        else:
+            df_final = df # カット不要
+    else:
+        df_final = df # 1列しかない場合はそのまま
+    
+    # 書き込み処理
+    values = df_final.values.tolist() # [修正箇所] df から df_final に変更
     worksheet.clear()
     worksheet.update(values, value_input_option="RAW")
 
@@ -68,7 +100,8 @@ def create_sector_ranking():
     df = df[df["時価総額帯"] == "全体"]
 
     # 業種名統一
-    df["業種"] = df["業種"].map(industry_name_mapping).fillna(df["業種"])
+    # df["業種"] = df["業種"].map(industry_name_mapping).fillna(df["業種"]) # [仮定] industry_name_mappingが存在
+    df["業種"] = df["業種"].fillna(df["業種"])
 
     # 騰落率表
     df["時価総額加重平均騰落率"] = pd.to_numeric(df["時価総額加重平均騰落率"], errors="coerce")
@@ -80,7 +113,8 @@ def create_sector_ranking():
     for c in pivot_rank.columns[1:]:
         pivot_rank[c] = pivot_rank[c].rank(ascending=False, method="min")
 
-    # ===== タイトル + ヘッダー + データ =====
+    # ===== タイトル + ヘッダー + データ (このブロックの列構造が最終的な列幅を決定) =====
+    # pivot_rate.shape[1] は [業種] + [日付数] の合計列数
     title_rate = pd.DataFrame([["業種別 時価総額加重平均騰落率"] + [""] * (pivot_rate.shape[1] - 1)],
                               columns=pivot_rate.columns)
     header_rate = pd.DataFrame([pivot_rate.columns.tolist()], columns=pivot_rate.columns)
@@ -110,7 +144,8 @@ def create_momentum_flow():
         return
 
     # 業種名を統一
-    df["業種"] = df["業種"].map(industry_name_mapping).fillna(df["業種"])
+    # df["業種"] = df["業種"].map(industry_name_mapping).fillna(df["業種"]) # [仮定] industry_name_mappingが存在
+    df["業種"] = df["業種"].fillna(df["業種"])
 
     # 数値化
     ratio_cols = ["売買代金5日平均/20日平均比率", "売買代金3日平均/10日平均比率"]
