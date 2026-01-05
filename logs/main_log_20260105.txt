@@ -1,0 +1,38 @@
+[2026/01/05 08:28:57] INFO: START 1-csv_downloader_individuals_v01.py
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py] 📥 Downloading CSV from https://csvex.com/kabu.plus/csv/japan-all-stock-prices/daily/japan-all-stock-prices.csv ...
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py] ❌ 401 Unauthorized：認証が必要です。
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py]   - 環境変数 KABU_ID / KABU_PW がセットされているか確認してください。
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py]   - Basic認証でなく、ログインフォーム（POST）経由のログインが必要な場合があります。
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py]   サーバー応答（先頭）： <!DOCTYPE html> <html lang="ja"> 	<head> 		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 		<title>KABU+ ä¼å¡å¶ãµã¼ãã¹ èªè¨¼ã¨ã©ã¼</title> 		<link rel="shortcut icon" href="/img/csvex-icon.png"> 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> 		<link rel="stylesheet" href="/css/jpn.min.css"> 		<link rel="stylesheet" href="/css/additional.css"> 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" c
+[2026/01/05 08:28:58] INFO: [1-csv_downloader_individuals_v01.py] ダウンロード失敗。必要なら `use_basic_auth=False` で試すか、ログインセッション方式を使ってください。
+[2026/01/05 08:28:58] INFO: END 1-csv_downloader_individuals_v01.py (elapsed 1.0s)
+[2026/01/05 08:28:58] INFO: START 2-csv_downloader_index_v01.py
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py] 📥 Downloading CSV from https://csvex.com/kabu.plus/csv/tosho-index-data/daily/tosho-index-data.csv ...
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py] ❌ 401 Unauthorized：認証が必要です。
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py]   - 環境変数 KABU_ID / KABU_PW がセットされているか確認してください。
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py]   - Basic認証でなく、ログインフォーム（POST）経由のログインが必要な場合があります。
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py]   サーバー応答（先頭）： <!DOCTYPE html> <html lang="ja"> 	<head> 		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 		<title>KABU+ ä¼å¡å¶ãµã¼ãã¹ èªè¨¼ã¨ã©ã¼</title> 		<link rel="shortcut icon" href="/img/csvex-icon.png"> 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> 		<link rel="stylesheet" href="/css/jpn.min.css"> 		<link rel="stylesheet" href="/css/additional.css"> 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" c
+[2026/01/05 08:28:59] INFO: [2-csv_downloader_index_v01.py] ダウンロード失敗。必要なら `use_basic_auth=False` で試すか、ログインセッション方式を使ってください。
+[2026/01/05 08:28:59] INFO: END 2-csv_downloader_index_v01.py (elapsed 1.0s)
+[2026/01/05 08:28:59] INFO: START 3-data_processor_v01.py
+[2026/01/05 08:29:00] INFO: [3-data_processor_v01.py] 📅 対象日: 2025/12/25
+[2026/01/05 08:29:00] INFO: [3-data_processor_v01.py] ✅ sector_summary 保存: data/processed_data/sector_summary/20251225_sector_summary.csv
+[2026/01/05 08:29:00] INFO: [3-data_processor_v01.py] ✅ momentum_summary 保存: data/processed_data/momentum_summary/20251225_momentum_summary.csv
+[2026/01/05 08:29:00] INFO: END 3-data_processor_v01.py (elapsed 1.2s)
+[2026/01/05 08:29:00] INFO: START 4-google_sheets_uploader_v02.py
+[2026/01/05 08:29:06] INFO: [4-google_sheets_uploader_v02.py] Uploading data/processed_data/sector_summary/20251225_sector_summary.csv → sector_log ...
+[2026/01/05 08:29:06] INFO: [4-google_sheets_uploader_v02.py] ✅ sector_log: 0 行を追加、合計 19800 行に更新しました。
+[2026/01/05 08:29:06] INFO: [4-google_sheets_uploader_v02.py] Uploading data/processed_data/momentum_summary/20251225_momentum_summary.csv → momentum_log ...
+[2026/01/05 08:29:06] INFO: [4-google_sheets_uploader_v02.py] ✅ momentum_log: 0 行を追加、合計 4917 行に更新しました。
+[2026/01/05 08:29:06] INFO: [4-google_sheets_uploader_v02.py] 全シート更新完了！
+[2026/01/05 08:29:06] INFO: END 4-google_sheets_uploader_v02.py (elapsed 6.2s)
+[2026/01/05 08:29:06] INFO: START 5-momentum_analyzer_v03.py
+[2026/01/05 08:29:09] INFO: [5-momentum_analyzer_v03.py] [sector_ranking] 古い日付データを削除し、最新120日分にカットしました。
+[2026/01/05 08:29:09] INFO: [5-momentum_analyzer_v03.py] ✅ sector_ranking 更新完了
+[2026/01/05 08:29:09] INFO: [5-momentum_analyzer_v03.py] [momentum_flow] 古い日付データを削除し、最新120日分にカットしました。
+[2026/01/05 08:29:09] INFO: [5-momentum_analyzer_v03.py] ✅ momentum_flow 更新完了
+[2026/01/05 08:29:09] INFO: [5-momentum_analyzer_v03.py] 全シート更新完了！
+[2026/01/05 08:29:09] INFO: END 5-momentum_analyzer_v03.py (elapsed 2.8s)
+[2026/01/05 08:29:09] INFO: START 6-summary_sender_v01.py
+[2026/01/05 08:29:12] INFO: [6-summary_sender_v01.py] ✅ Discord送信完了
+[2026/01/05 08:29:12] INFO: END 6-summary_sender_v01.py (elapsed 2.8s)
